@@ -5,8 +5,11 @@ import bcryptjs from "bcryptjs";
 import { signJWT } from "../middleware/JWT";
 import Chat from "../model/Chat";
 import Msg from "../model/Msg";
-
+import formidable from "formidable";
+import multer from "multer";
 const __dirname = path.resolve();
+
+
 
 export async function login(req, res, next) {
   console.log(req.body)
@@ -87,7 +90,8 @@ export async function createChat(req,res) {
   const {sender , receiver,message} = req.body;
   const senderDb = await User.findOne({_id: sender});
   const receiverDb = await User.findOne({_id: sender});
-  let chat = await Chat.findOne({sender: senderDb , receiver: receiverDb});
+  let chat = await Chat.findOne( { $and: [ { sender: sender }, { receiver: receiver } ] } );
+  console.log(chat);
   if(chat) {
     res.status(500).send('chat aleredy exist')
   }
@@ -106,4 +110,18 @@ export async function createChat(req,res) {
   await chat.save();
 
   res.send(200);
+}
+export async function deleteChat(req,res) {
+  const { id } = req.params;
+  await Chat.deleteOne({ _id: mongoose.Types.ObjectId.createFromHexString(id)});
+  res.redirect("http://localhost:1337/admin/chats");
+}
+
+export async function deleteMessage(req,res) {
+  const { id } = req.params;
+  await Msg.deleteOne({ _id: mongoose.Types.ObjectId.createFromHexString(id)});
+  res.redirect("http://localhost:1337/admin/messages");
+}
+export async function createPost(req,res) {
+  
 }

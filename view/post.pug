@@ -229,18 +229,5 @@ head
   a(href='http://localhost:1337/admin/posts') Posts
   a(href='http://localhost:1337/admin/messages') messages
 .main
-  form(action='http://localhost:1337/admin/chat/create' method="GET")
+  form(action='http://localhost:1337/admin/post/create' method="GET")
     button(class='create' type='submit' onclick="openForm()") Create ➕
-  for chat in chats
-    .airplane
-      .section
-        
-        p.name= `from: ${chat.receiver.email}`
-        p.name= `to: ${chat.sender.email}` 
-        for message in chat.messages 
-          p.capacity= `${message.message}`
-        form(action=`http://localhost:1337/admin/chat/${chat._id}/delete/` method="POST")
-          button(class='delete' type='submit') Delete
-        form(action=`/admin/user/${chat._id}/delete/` method="POST")
-          button(class='delete' style='background:rgba(17, 86, 146, 0.8); border: 1px solid rgba(0, 243, 107, 0.10);' type='submit') Update
-

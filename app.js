@@ -7,8 +7,6 @@ import cors from "cors";
 import { router } from "./router/user";
 import {adminRouter} from './router/admin'
 import  path  from "path";
-import ejs from 'ejs'
-import adminAuth from "./middleware/AdminAuth";
 const __dirname = path.resolve();
 const app = express();
 app.use(cors());
@@ -32,7 +30,6 @@ mongoose
     console.log("fail");
 
   });
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
