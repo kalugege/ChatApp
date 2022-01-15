@@ -1,0 +1,15 @@
+head
+form(action='http://localhost:1337/user/register' method='POST')
+  h1 Sign up
+  br
+  span.input
+  input(type='text' name='name' placeholder='Full name' title='Format: Xx[space]Xx (e.g. Luka Jovanovic)' autofocus='' autocomplete='off' required='' )
+  span.input
+  input(type='email' name='email' placeholder='Email address' required='')
+  span.input
+  input(type='username' name='username' placeholder='Username' required='')
+  span#passwordMeter
+  input#password(type='password' name='password' placeholder='Password' title='Password min 8 characters. At least one UPPERCASE and one lowercase letter' required='' pattern='(?=^.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$')
+  button.icon-arrow-right(type='submit' value='Sign Up' title='Submit form')
+    span Sign up
+script(src='validation.js')

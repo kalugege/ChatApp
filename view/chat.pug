@@ -1,0 +1,246 @@
+doctype html
+head
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+  style.
+    body {
+    font-family: "Lato", sans-serif;
+    }
+    .sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+    }
+    .airplane {
+      position: relative;
+      width: 40%;
+      margin: 2rem 5rem;
+      height: 15rem;
+      background-color: rgba(20, 114, 121, 0.4);
+      box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .section {
+      flex: 1;
+      position: relative;
+      padding: 0rem 0rem;
+      height: 100%;
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+ 
+    .airplane .section p.name {
+      font-size: 1.5rem;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.767);
+      margin: 0.7rem 0;
+    }
+    .airplane .section p.capacity {
+      font-size: 1.5rem;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.65);
+      margin: 0.10rem 0;
+    }
+    .section button.delete {
+      padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    border: 1px solid rgba(255, 0, 0, 0.7);
+    text-decoration: none;
+    margin-bottom:0.3rem;
+    margin-top:0.3rem;
+    background-color: rgba(255, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.2s;
+    cursor: pointer;
+    }
+    .section button.delete:hover {
+      background-color: rgba(255, 0, 0, 0.7);
+      color: white;
+    }
+    .section button.delete:disabled {
+     background-color: rgba(255, 0, 0, 0.3);
+      cursor: default;
+    }
+    .sidenav a, .dropdown-btn {
+      padding: 6px 8px 6px 16px;
+      text-decoration: none;
+      font-size: 20px;
+      color: #818181;
+      display: block;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* On mouse-over */
+    .sidenav a:hover, .dropdown-btn:hover {
+    color: #f1f1f1;
+    }
+    /* Main content */
+    .main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    font-size: 20px; 
+    padding: 0px 10px;
+
+    }
+    .main .create{
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      border: 1px solid rgba(0, 243, 107, 0.10);
+      text-decoration: none;
+      background-color: rgba(12, 165, 79, 0.8);
+      color: rgba(255, 255, 255, 0.8);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    /* Add an active class to the active dropdown button */
+    .active {
+    background-color: green;
+    color: white;
+    }
+    .open-button {
+      background-color: #555;
+      color: white;
+      padding: 16px 20px;
+      border: none;
+      cursor: pointer;
+      opacity: 0.8;
+      position: fixed;
+      bottom: 23px;
+      right: 28px;
+      width: 280px;
+    }
+   .form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    
+    }
+
+    .form-container {
+      max-width: 300px;
+      padding: 10px;
+      background-color: white;
+    }
+
+    .form-container input[type=text], .form-container input[type=password] {
+      width: 100%;
+      padding: 15px;
+      margin: 5px 0 22px 0;
+      border: none;
+      background: #f1f1f1;
+    }
+
+    .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+      background-color: #ddd;
+      outline: none;
+    }
+
+    .form-container .btn {
+      background-color: #04AA6D;
+      color: white;
+      padding: 16px 20px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom:10px;
+      opacity: 0.8;
+    }
+
+    .form-container .cancel {
+      background-color: red;
+    }
+
+    .form-container .btn:hover, .open-button:hover {
+      opacity: 1;
+    }
+    .dropdown-container {
+    display: none;
+    background-color: #262626;
+    padding-left: 8px;
+    }
+    .fa-caret-down {
+    float: right;
+    padding-right: 8px;
+    }
+    /* Some media queries for responsiveness */
+    @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+
+    .dropbtn {
+      background-color: #3498DB;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    .dropbtn:hover, .dropbtn:focus {
+      background-color: #2980B9;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 160px;
+      overflow: auto;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      }
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown a:hover {background-color: #ddd;}
+
+    .show {display: block;}
+    }
+.sidenav
+  a(href='http://localhost:1337/admin/allUsers') Users
+  a(href='http://localhost:1337/admin/chats') Chats
+  a(href='http://localhost:1337/admin/posts') Posts
+  a(href='http://localhost:1337/admin/messages') messages
+.main
+  form(action='http://localhost:1337/admin/chat/create' method="GET")
+    button(class='create' type='submit' onclick="openForm()") Create ➕
+  for chat in chats
+    .airplane
+      .section
+        
+        p.name= `from: ${chat.receiver.email}`
+        p.name= `to: ${chat.sender.email}` 
+        for message in chat.messages 
+          p.capacity= `${message.message}`
+        form(action=`/admin/user/${chat._id}/delete/` method="POST")
+          button(class='delete' type='submit') Delete
+        form(action=`/admin/user/${chat._id}/delete/` method="POST")
+          button(class='delete' style='background:rgba(17, 86, 146, 0.8); border: 1px solid rgba(0, 243, 107, 0.10);' type='submit') Update
+
