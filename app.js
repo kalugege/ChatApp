@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
-import { router } from "./router/user";
+import { router } from "../ChatApp/router/user";
 import {adminRouter} from './router/admin'
 import  path  from "path";
 import { standardRouter } from "./router/standardRouter";
