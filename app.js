@@ -7,6 +7,7 @@ import cors from "cors";
 import { router } from "./router/user";
 import {adminRouter} from './router/admin'
 import  path  from "path";
+import { standardRouter } from "./router/standardRouter";
 const __dirname = path.resolve();
 const app = express();
 app.use(cors());
@@ -35,6 +36,7 @@ app.use(bodyParser.json());
 app.use(cors());
 // app.use(dataBase);
 
+app.use("/", standardRouter);
 app.use("/user", router);
 app.use("/admin",adminRouter);
 

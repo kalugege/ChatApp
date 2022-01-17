@@ -231,15 +231,11 @@ head
   a(href='http://localhost:1337/admin/posts') Posts
   a(href='http://localhost:1337/admin/messages') messages
 .main
-  form(action='http://localhost:1337/admin/user/create' method="GET")
-    button(class='create' type='submit' onclick="openForm()") Create ➕
-    .airplane
-      .section
-      form(action=`/admin/user/${user._id}/update/` method="POST")
-          input.capacity(value= user.role == 0 ? 'User' : user.role == 1 ? 'Moderator' : 'Admin' name="role")
-          input.name(value=user.name name="name")
-          input.capacity(value=`${user.email}` name="email")
-          button(class='delete' style='background:rgba(17, 86, 146, 0.8); border: 1px solid rgba(0, 243, 107, 0.10);' type='submit') Update
-          form(action=`/admin/user/${user._id}/delete/` method="POST")
-          button(class='delete' type='submit') Delete
+  .airplane
+    .section
+      form(action=`/admin/user/register/` method="POST")
+        
+        input.name(name="name")
+        input.capacity(name="email")
+        button(class='delete' style='background:rgba(17, 86, 146, 0.8); border: 1px solid rgba(0, 243, 107, 0.10);' type='submit') register
   
