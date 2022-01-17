@@ -9,8 +9,20 @@ import formidable from "formidable";
 import multer from "multer";
 const __dirname = path.resolve();
 
-
-
+export async function updateUser(req,res) {
+  console.log(req.body);
+  const role = req.body.role == 'Admin' ? 2 : req.body.role == 'Moderator' ? 2 : 0
+  await User.findOneAndUpdate({email: req.body.email}, {name: req.body.name, email:req.body.email,role:role,username: req.body.username});
+  res.redirect(`${process.env.CLIENT_URL}admin/allUsers`)
+}
+// export async function createUser(req,res) {
+//   await User.save({
+//     name: req.body.name,
+//     email: req.body.email,
+//     role: req.body.role,
+//     username: req.body.username
+//   })
+// }
 export async function login(req, res, next) {
   console.log(req.body)
   let { email, password } = req.body;
@@ -41,7 +53,6 @@ export async function login(req, res, next) {
     }
   }
 }
-
 export async function getAllUsers(req, res) {
   const users = await User.find({});
   res.render("users", { users: users });
@@ -75,6 +86,7 @@ export async function createUser(req, res) {
     req.body.password = bcryptjs.hashSync(req.body.password, 10);
 
     user = new User({
+      role: req.body.role,
       name: req.body.name,
       username: req.body.username,
       email: req.body.email,
@@ -83,6 +95,7 @@ export async function createUser(req, res) {
     });
 
     await user.save();
+    res.redirect('http://localhost:1337/admin/allUsers')
   }
 }
 
@@ -109,7 +122,10 @@ export async function createChat(req,res) {
   });
   await chat.save();
 
-  res.send(200);
+  res.redirect('http://localhost:1337/admin/chats');
+}
+export async function updateChat(req,res) {
+
 }
 export async function deleteChat(req,res) {
   const { id } = req.params;
@@ -121,6 +137,12 @@ export async function deleteMessage(req,res) {
   const { id } = req.params;
   await Msg.deleteOne({ _id: mongoose.Types.ObjectId.createFromHexString(id)});
   res.redirect("http://localhost:1337/admin/messages");
+}
+export async function updateMessage(req,res) {
+  const { id } = req.params;
+  console.log(id);
+  await Msg.updateOne({ _id: mongoose.Types.ObjectId.createFromHexString(id)},{message: req.body.message});
+  res.redirect(`${process.env.CLIENT_URL}admin/messages`);
 }
 export async function createPost(req,res) {
   

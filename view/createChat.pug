@@ -40,7 +40,7 @@ head
       justify-content: center;
     }
  
-    .airplane .section p.name option.name{
+    .airplane .section select.name option.name textarea.name{
       font-size: 1.5rem;
       font-family: 'Roboto', sans-serif;
       font-weight: 700;
@@ -229,17 +229,17 @@ head
   a(href='http://localhost:1337/admin/posts') Posts
   a(href='http://localhost:1337/admin/messages') messages
 .main
-    .airplane
-        .section
-            form(action='http://localhost:1337/admin/chat/create' method="POST")
-                select(name='sender')
-                    for user in users
-                        option(value=`${user._id}`)= user.name
-                select(name='receiver' )
-                    for user in users
-                        option(value=`${user._id}`)= user.name
-                textarea(name='message')
-                button(class='delete' style='background:rgba(17, 86, 146, 0.8); border: 1px solid rgba(0, 243, 107, 0.10);' type='submit') Create
+  .airplane
+    .section
+      form(action='http://localhost:1337/admin/chat/create' method="POST")
+        select(name='sender')
+          for user in users
+            option.name(value=`${user._id}`)= user.name
+        select.name(name='receiver' )
+          for user in users
+            option(value=`${user._id}`)= user.name
+        textarea.name(name='message')
+        button(class='delete' style='background:rgba(17, 86, 146, 0.8); border: 1px solid rgba(0, 243, 107, 0.10);' type='submit') Create
 
 
 

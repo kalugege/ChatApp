@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllUsers,deleteUser, login, createChat, deleteChat, deleteMessage, createPost } from "../controller/Admin";
+import { getAllUsers,deleteUser, login, createChat, deleteChat, deleteMessage, createPost, updateUser, createUser, updateMessage } from "../controller/Admin";
 const adminRouter = Router();
 import  path  from "path";
 import adminAuth from "../middleware/AdminAuth";
@@ -17,6 +17,7 @@ adminRouter.get('/', adminAuth,(req,res) => {
 });
 adminRouter.get('/chats', adminAuth,async (req,res) => {
     const chats = await Chat.find({}).populate('sender').populate('receiver').populate('messages');
+    console.log(chats)
     res.render('chat', {chats: chats});
 });
 
@@ -34,10 +35,13 @@ adminRouter.get('/login', (req,res) => {
 adminRouter.get('/allUsers',adminAuth, getAllUsers);
 
 adminRouter.post('/user/:id/delete',adminAuth, deleteUser);
+adminRouter.post('/user/:id/update',adminAuth, updateUser);
+
 
 adminRouter.get('/user/create',adminAuth, (req,res) => {
     res.render('userCreate');
 });
+adminRouter.post('/user/create',adminAuth, createUser);
 adminRouter.get('/posts',adminAuth, (req,res) => {
     res.render('post');
 });
@@ -52,36 +56,13 @@ adminRouter.get('/post/create',adminAuth, async (req,res) => {
     res.render('createPost', {users: users});
 });
 adminRouter.post('/chat/create',adminAuth, createChat);
-adminRouter.post('/post/create',adminAuth, upload.single("file"), (req, res) => {
-  console.log(req.body);
-  const tempPath = req.file?.path;
-  
-  const targetPath = path.join(__dirname, "./uploads/image.png");
 
-  if (path.extname(req.file.originalname).toLowerCase() === ".png") {
-    fs.rename(tempPath, targetPath, err => {
-      if (err) return handleError(err, res);
-
-      res
-        .status(200)
-        .contentType("text/plain")
-        .end("File uploaded!");
-    });
-  } else {
-    fs.unlink(tempPath, err => {
-      if (err) return handleError(err, res);
-
-      res
-        .status(403)
-        .contentType("text/plain")
-        .end("Only .png files are allowed!");
-    });
-  }
-});
 
 adminRouter.post('/chat/:id/delete',adminAuth, deleteChat);
 
 adminRouter.post('/message/:id/delete',adminAuth, deleteMessage);
+adminRouter.post('/message/:id/update',adminAuth, updateMessage);
+
 
 
 export { adminRouter };
