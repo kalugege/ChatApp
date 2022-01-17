@@ -11,18 +11,12 @@ const __dirname = path.resolve();
 
 export async function updateUser(req,res) {
   console.log(req.body);
-  const role = req.body.role == 'Admin' ? 2 : req.body.role == 'Moderator' ? 2 : 0
+  const role = req.body.role == 'Admin' ? 2 : req.body.role == 'Moderator' ? 1 : 0;
+  console.log(role);
   await User.findOneAndUpdate({email: req.body.email}, {name: req.body.name, email:req.body.email,role:role,username: req.body.username});
   res.redirect(`${process.env.CLIENT_URL}admin/allUsers`)
 }
-// export async function createUser(req,res) {
-//   await User.save({
-//     name: req.body.name,
-//     email: req.body.email,
-//     role: req.body.role,
-//     username: req.body.username
-//   })
-// }
+
 export async function login(req, res, next) {
   console.log(req.body)
   let { email, password } = req.body;
@@ -100,6 +94,9 @@ export async function createUser(req, res) {
 }
 
 export async function createChat(req,res) {
+  if(req.user.role == 1) {
+    return res.send('you are moderator');
+  }
   const {sender , receiver,message} = req.body;
   const senderDb = await User.findOne({_id: sender});
   const receiverDb = await User.findOne({_id: sender});
@@ -128,17 +125,27 @@ export async function updateChat(req,res) {
 
 }
 export async function deleteChat(req,res) {
+  console.log(req.user.role)
+  if(req.user.role == 1) {
+    return res.send('you are moderator');
+  }
   const { id } = req.params;
   await Chat.deleteOne({ _id: mongoose.Types.ObjectId.createFromHexString(id)});
   res.redirect("http://localhost:1337/admin/chats");
 }
 
 export async function deleteMessage(req,res) {
+  if(req.user.role == 1) {
+    return res.send('you are moderator');
+  }
   const { id } = req.params;
   await Msg.deleteOne({ _id: mongoose.Types.ObjectId.createFromHexString(id)});
   res.redirect("http://localhost:1337/admin/messages");
 }
 export async function updateMessage(req,res) {
+  if(req.user.role == 1) {
+    return res.send('you are moderator');
+  }
   const { id } = req.params;
   console.log(id);
   await Msg.updateOne({ _id: mongoose.Types.ObjectId.createFromHexString(id)},{message: req.body.message});

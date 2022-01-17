@@ -4,8 +4,8 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
-import { router } from "./router/Usr";
 import {adminRouter} from './router/Admin'
+import { router } from "./router/Usr";
 import  path  from "path";
 import { standardRouter } from "./router/StandardRouter";
 const __dirname = path.resolve();

@@ -22,7 +22,7 @@ head
       width: 40%;
       margin: 2rem 5rem;
       height: 17rem;
-      background-color: rgba(20, 114, 121, 0.4);
+      background-color: #f1f1f1;
       box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
       display: flex;
       align-items: center;
@@ -32,6 +32,7 @@ head
       flex: 1;
       position: relative;
       padding: 0rem 0rem;
+      margin: 2rem 10rem;
       height: 100%;
       width: 30%;
       display: flex;
@@ -225,17 +226,14 @@ head
 
     .show {display: block;}
     }
-.sidenav
-  a(href='http://localhost:1337/admin/allUsers') Users
-  a(href='http://localhost:1337/admin/chats') Chats
-  a(href='http://localhost:1337/admin/posts') Posts
-  a(href='http://localhost:1337/admin/messages') messages
+
 .main
   .airplane
     .section
-      form(action=`/admin/user/register/` method="POST")
-        
-        input.name(name="name")
-        input.capacity(name="email")
+      form(action=`/user/register/` method="POST")
+        input.name(name="name" placeholder="Full Name")
+        input.name(name="email" placeholder="Email")
+        input.name(name="username" placeholder="username")
+        input.capacity(name="password" placeholder="password" type="password")
         button(class='delete' style='background:rgba(17, 86, 146, 0.8); border: 1px solid rgba(0, 243, 107, 0.10);' type='submit') register
   
