@@ -7,6 +7,7 @@ import Chat from "../model/Chat";
 import Msg from "../model/Msg";
 import formidable from "formidable";
 import multer from "multer";
+import Post from '../model/Post.js'
 const __dirname = path.resolve();
 
 export async function updateUser(req,res) {
@@ -99,7 +100,7 @@ export async function createChat(req,res) {
   }
   const {sender , receiver,message} = req.body;
   const senderDb = await User.findOne({_id: sender});
-  const receiverDb = await User.findOne({_id: sender});
+  const receiverDb = await User.findOne({_id: receiver});
   let chat = await Chat.findOne( { $and: [ { sender: sender }, { receiver: receiver } ] } );
   console.log(chat);
   if(chat) {
@@ -143,14 +144,47 @@ export async function deleteMessage(req,res) {
   res.redirect("http://localhost:1337/admin/messages");
 }
 export async function updateMessage(req,res) {
+  
   if(req.user.role == 1) {
     return res.send('you are moderator');
   }
   const { id } = req.params;
-  console.log(id);
+
+  console.log(req.body.message);
   await Msg.updateOne({ _id: mongoose.Types.ObjectId.createFromHexString(id)},{message: req.body.message});
   res.redirect(`${process.env.CLIENT_URL}admin/messages`);
 }
 export async function createPost(req,res) {
-  
+  console.log(req.body);
+  const user = await User.findOne({ _id: mongoose.Types.ObjectId.createFromHexString(req.body.user)})
+  const post = new Post({
+    user: user,
+    description: req.body.description
+  })
+  await post.save();
+  res.redirect("http://localhost:1337/admin/posts")
+}
+
+export async function deletePost(req,res) {
+  if(req.user.role == 1) {
+    return res.send('you are moderator');
+  }
+  const { id } = req.params;
+  await Post.deleteOne({ _id: mongoose.Types.ObjectId.createFromHexString(id)});
+  res.redirect("http://localhost:1337/admin/posts");
+}
+
+export async function updatePost(req,res) {
+  if(req.user.role == 1) {
+    return res.send('you are moderator');
+  }
+  console.log(req.body)
+  const { id } = req.params;
+  const user = await User.findOne({email: req.body.email});
+  if(!user) {
+    res.send('user not exist')
+  }
+  await Post.updateOne({ _id: mongoose.Types.ObjectId.createFromHexString(id)},{description: req.body.description,user:user});
+  res.redirect(`${process.env.CLIENT_URL}admin/posts`);
+
 }

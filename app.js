@@ -7,8 +7,11 @@ import cors from "cors";
 import {adminRouter} from './router/Admin'
 import { router } from "./router/Usr";
 import  path  from "path";
+import multer from 'multer';
 import { standardRouter } from "./router/StandardRouter";
 const __dirname = path.resolve();
+import expressBusboy from 'express-busboy';
+
 const app = express();
 app.use(cors());
 const options = {
@@ -18,6 +21,8 @@ const options = {
   minPoolSize: 2,
   maxPoolSize: 4
 }
+
+
 app.use(express.static(path.join(__dirname, 'view')));
 app.set('views', path.join(__dirname, 'view')); // this is the folder where we keep our pug files
 app.set('view engine', 'pug');

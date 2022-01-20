@@ -231,11 +231,11 @@ head
 .main
     .airplane
         .section
-            form(action='http://localhost:1337/admin/post/create' method="POST" enctype="multipart/form-data")
+            form(action='http://localhost:1337/admin/post/create' method="POST")
                 select(name='user')
                     for user in users
                         option(value=`${user._id}`)= user.name
-                input(type='file' name='file')
+                input(type='file' name='photo')
                 input(name='description')
                 button(class='delete' style='background:rgba(17, 86, 146, 0.8); border: 1px solid rgba(0, 243, 107, 0.10);' type='submit') Create
 
